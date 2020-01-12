@@ -1,0 +1,14 @@
+version: "2"
+
+services:
+  ros-demo:
+    image: ros-demo
+    privileged: true
+    volumes:
+      # Mount the current directory do everything in /tutorial within docker
+      - .:/tutorial:rw
+    environment:
+      - DISPLAY
+    network_mode: "host"
+    container_name: ros-demo
+    command: "/bin/bash --init /opt/ros/melodic/setup.bash" #source ros automatically 
