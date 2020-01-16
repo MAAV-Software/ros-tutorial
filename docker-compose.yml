@@ -11,4 +11,4 @@ services:
       - DISPLAY
     network_mode: "host"
     container_name: ros-demo
-    command: "/bin/bash --init /opt/ros/melodic/setup.bash" #source ros automatically 
+    command: "/bin/bash --init-file scripts/source-ros.sh" #source ros automatically 
