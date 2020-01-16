@@ -11,11 +11,22 @@ The steps below will discuss how to install Docker Toolbox on Windows.
 
 Assuming you meet the requirements in **Step 1: Check your version** of the [Install Docker Toolbox on Windows](https://docs.docker.com/toolbox/toolbox_install_windows/#step-1-check-your-version) guide, download the latest **.exe** file from [Toolbox Releases](https://github.com/docker/toolbox/releases).
 
-If you already have VirtualBox installed, uninstall it. I have been unable to get Docker working with the latest version of VirtualBox. Instead, you will be downloading VirtualBox through the Docker Installer.
-
-Run the Docker Toolbox Installer. Choose an install location (default is fine) and then you should see the **Select Components** page. Here, VirtualBox should automatically be checked since you do not have an installation of VirtualBox. If you don't have Git for Windows, you can install it here as well. If you do have it, no need to uninstall it. On the **Select Additional Tasks** page, use the default checked options, then click Install and then Finish.
+Run the Docker Toolbox Installer. Choose an install location (default is fine) and then you should see the **Select Components** page. If you already have VirtualBox installed, uncheck it on this page. If you already have Git for Windows, no need to install it through the Docker Toolbox installer. On the **Select Additional Tasks** page, use the default checked options, then click Install and then Finish.
 
 Now, **run VirtualBox as Administrator**. This step is very important. You need to run VirtualBox before running Docker. Once VirtualBox is running, **run Docker Quickstart Terminal as Administrator**. After some installation steps, you should be ready to start!
+
+#### Troubleshooting
+If you encounter VirtualBox errors when running the Docker Quickstart Terminal, here are some suggestions:
+* If you use the latest version of VirtualBox for personal use, backup your files
+  * Uninstall Docker and VirtualBox
+  * Restart computer
+  * Install latest version of VirtualBox
+  * Install Docker and uncheck VirtualBox in the installer
+* If you don't need VirtualBox for personal use, the VirtualBox install option in the Docker installer should make everything work correctly
+* If you see an error regarding having multiple host-only adapters with the same IP
+  * Open VirtualBox -> File -> Host Network Manager
+  * Remove one of the duplicate adapters
+  * Re-open Docker Quickstart Terminal 
 
 ### Ubuntu
 Follow the instructions on the Docker website for [Docker Engine - Community](https://docs.docker.com/install/linux/docker-ce/ubuntu/).
@@ -25,7 +36,6 @@ Follow the instructions on the Docker website for [Docker Desktop for Mac](https
 
 ### Other
 Check the [Docker website](https://www.docker.com/).
-
 
 ## Docker Essential Vocab
 
