@@ -20,6 +20,13 @@
 4. Run **Docker Quickstart Terminal as Administrator**
 5. After some installation steps, you should be ready to start!
 
+#### GUIs in Docker
+To enable the use of GUIs in Docker, follow the instructions on the [MAAV Website](https://sites.google.com/umich.edu/maav/team/software/docker/guis-on-docker?pli=1&authuser=1).
+- Install VcXsrv
+- Open PowerShell and run `ipconfig` to determine ip address
+- Build docker container (see ROS Tutorial Steps below)
+- Run docker container with `docker-compose run --rm -e DISPLAY=<IP Address>:0.0 ros-demo` to enable GUIs in your docker container
+
 #### Troubleshooting
 If you encounter VirtualBox errors when running the Docker Quickstart Terminal, here are some suggestions:
 * If you use the latest version of VirtualBox for personal use, backup your files
@@ -90,6 +97,10 @@ distribution provide various images in an official capacity on [Docker Hub](http
     - `docker-compose run --rm ros-demo`
 5. Navigate to the tutorial folder inside your running docker container
     - `cd /tutorial`
+6. Set source
+    - `source /opt/ros/melodic/setup.sh`
+7. Run roscore as a background task so you don't need a new terminal
+    - `roscore &`
 
 Do all the work inside your **tutorial** folder. This is the only folder linked 
 to your host computer. Complete the following [ROS tutorials](https://wiki.ros.org/ROS/Tutorials).
@@ -97,7 +108,7 @@ to your host computer. Complete the following [ROS tutorials](https://wiki.ros.o
     - Skip **1. Install ROS** and **2. Managing Your Environment** as these have already been taken care of in the docker container.
     - For **3. Create a ROS Workspace**, follow the instructions for **catkin** as we are using ROS Melodic which is newer than ROS Groovy.
     - As mentioned previously, all your work should be done inside the **tutorial** folder. In **3. Create a ROS Workspace**, create the catkin workspace inside the tutorial folder rather than the home directory.
-        - `mkdir -p /catkin_ws/src` instead of `mkdir -p ~/catkin_ws/src`
+        - `mkdir -p catkin_ws/src` instead of `mkdir -p ~/catkin_ws/src`
 2. [Navigating the ROS Filesystem](https://wiki.ros.org/ROS/Tutorials/NavigatingTheFilesystem)
     - We are using ROS Melodic Morenia so you should run `sudo apt-get install ros-melodic-ros-tutorials` to install the required packages.
     - Review
@@ -107,6 +118,7 @@ to your host computer. Complete the following [ROS tutorials](https://wiki.ros.o
 3. [Creating a ROS Package](https://wiki.ros.org/ROS/Tutorials/CreatingPackage)
 4. [Building a ROS Package](https://wiki.ros.org/ROS/Tutorials/BuildingPackages)
 5. [Understanding ROS Nodes](https://wiki.ros.org/ROS/Tutorials/UnderstandingNodes)
+    - To run turtlesim, you will need to enable the GUI for docker. See GUIs in Docker section above.
     - Review
         - roscore = ros + core: master (provides name service for ROS) + rosout (stdout/stderr) + parameter server.
         - rosnode = ros + node: ROS tool to get information about a node.
@@ -114,6 +126,6 @@ to your host computer. Complete the following [ROS tutorials](https://wiki.ros.o
 6. [Understanding ROS Topics](https://wiki.ros.org/ROS/Tutorials/UnderstandingTopics)
 7. [Understanding ROS Services and Parameters](https://wiki.ros.org/ROS/Tutorials/UnderstandingServicesParams)
 8. [Using rqt_console and roslaunch](https://wiki.ros.org/ROS/Tutorials/UsingRqtconsoleRoslaunch)
-9. [Using rosed to edit files in ROS](https://wiki.ros.org/ROS/Tutorials/UsingRosEd)
+9.  [Using rosed to edit files in ROS](https://wiki.ros.org/ROS/Tutorials/UsingRosEd)
 10. [Creating a ROS msg and srv](https://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv)
 11. [Writing a Simple Publisher and Subscriber (C++)](https://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28c%2B%2B%29)
