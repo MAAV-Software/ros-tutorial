@@ -1,10 +1,11 @@
 FROM ros:melodic
 
-RUN  apt-get update && apt-get install -y \
+RUN sudo apt-get update && apt-get install -y \
 	tmux \
 	curl \
 	wget \
 	vim \
-	unzip
-	
+	unzip \
+	ros-melodic-ros-tutorials
+
 CMD ["bash"]

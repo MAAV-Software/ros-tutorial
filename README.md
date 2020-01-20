@@ -21,11 +21,36 @@
 5. After some installation steps, you should be ready to start!
 
 #### GUIs in Docker
-To enable the use of GUIs in Docker, follow the instructions on the [MAAV Website](https://sites.google.com/umich.edu/maav/team/software/docker/guis-on-docker?pli=1&authuser=1).
-- Install VcXsrv
-- Open PowerShell and run `ipconfig` to determine ip address
-- Build docker container (see ROS Tutorial Steps below)
-- Run docker container with `docker-compose run --rm -e DISPLAY=<IP Address>:0.0 ros-demo` to enable GUIs in your docker container
+To enable the use of GUIs in Docker, follow the instructions on the [MAAV Website](https://sites.google.com/umich.edu/maav/team/software/docker/guis-on-docker?pli=1&authuser=1) and [this article](https://dev.to/darksmile92/run-gui-app-in-linux-docker-container-on-windows-host-4kde).
+1. Install **VcXsrv**
+    - If you are using Chocolatey: `choco install vcxsrv`
+    - Otherwise, download from [Source Forge](https://www.google.com/url?q=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fvcxsrv%2F&sa=D&sntz=1&usg=AFQjCNFZLtdIHK50nhjd-rYEgBPhHWYt4A)
+2. Run **XLaunch** and choose the settings shown on the [MAAV Website](https://sites.google.com/umich.edu/maav/team/software/docker/guis-on-docker?pli=1&authuser=1) or [this article](https://dev.to/darksmile92/run-gui-app-in-linux-docker-container-on-windows-host-4kde)
+3. Before clicking **Finish**, save the configuration file to one of the following locations:
+    - `%AppData%\Xming`
+    - `%UserProfile%\Desktop`
+    - `%UserProfile%`
+4. Open **PowerShell** and run `ipconfig` to determine IP address (look at [MAAV Website](https://sites.google.com/umich.edu/maav/team/software/docker/guis-on-docker?pli=1&authuser=1) for help)
+5. In the **docker-compose.yml** file, under environment, add the IP Address to the display variable:
+    - `DISPLAY=<IP Address>:0.0` where "\<IP Address>" is replaced with your IP Adress from step 4
+    - docker-compose.yml should look something like this now
+        ```yml
+        version: "2"
+
+        services:
+        ros-demo:
+            image: ros-demo
+            privileged: true
+            volumes:
+            # Mount the current directory do everything in /tutorial within docker
+            - .:/tutorial:rw
+            environment:
+            - DISPLAY=1.1.1.1:0.0 # Set DISPLAY variable to <IP Adress>:0.0
+            network_mode: "host"
+            container_name: ros-demo
+            command: "/bin/bash --init-file scripts/source-ros.sh" #source ros automatically 
+        ```
+6. Follow instructions in ROS Tutorial Steps below
 
 #### Troubleshooting
 If you encounter VirtualBox errors when running the Docker Quickstart Terminal, here are some suggestions:
@@ -88,29 +113,31 @@ distribution provide various images in an official capacity on [Docker Hub](http
 
 
 ## ROS Tutorial Steps
-1. Clone (or download) this repository to your computer
-2. In your docker terminal, navigate to the local repository folder
+**NOTE:** If you are using **vcxsrv** as mentioned in **GUIs in Docker** above, **XLaunch** needs to be running and **docker-compose.yml** needs to have the DISPLAY variable set with your IP Address before running the Docker container. If XLaunch is not running, find **config.xlaunch** that you saved and run it.
+
+1. In your docker terminal, navigate to the local repository folder
     - `cd /PATH/TO/REPO`
-3. Create a docker image called "ros-demo"
+2. Create a docker image called **ros-demo**
     - `docker build -t ros-demo .`
-4. Run a container using the ros-demo   
+3. Run a container using the ros-demo image
     - `docker-compose run --rm ros-demo`
-5. Navigate to the tutorial folder inside your running docker container
+4. Navigate to the tutorial folder inside your running docker container
     - `cd /tutorial`
-6. Set source
+5. Set source
     - `source /opt/ros/melodic/setup.sh`
-7. Run roscore as a background task so you don't need a new terminal
-    - `roscore &`
 
 Do all the work inside your **tutorial** folder. This is the only folder linked 
 to your host computer. Complete the following [ROS tutorials](https://wiki.ros.org/ROS/Tutorials).
+
+**TIP:** To start processes in the background (for when the tutorial suggests opening a new terminal) append `&` to the end of the command. E.g. `roscore &` will run roscore in the background so you can use the same terminal to run `rosrun turtlesim turtlesim_node`.
+
 1. [Installing and Configuring your ROS Environment](https://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment)
     - Skip **1. Install ROS** and **2. Managing Your Environment** as these have already been taken care of in the docker container.
     - For **3. Create a ROS Workspace**, follow the instructions for **catkin** as we are using ROS Melodic which is newer than ROS Groovy.
     - As mentioned previously, all your work should be done inside the **tutorial** folder. In **3. Create a ROS Workspace**, create the catkin workspace inside the tutorial folder rather than the home directory.
         - `mkdir -p catkin_ws/src` instead of `mkdir -p ~/catkin_ws/src`
 2. [Navigating the ROS Filesystem](https://wiki.ros.org/ROS/Tutorials/NavigatingTheFilesystem)
-    - We are using ROS Melodic Morenia so you should run `sudo apt-get install ros-melodic-ros-tutorials` to install the required packages.
+    - The ROS tutorial files have already been installed through the **Dockerfile**.
     - Review
         - rospack = ros + pack(age)
         - roscd = ros + cd
@@ -118,7 +145,9 @@ to your host computer. Complete the following [ROS tutorials](https://wiki.ros.o
 3. [Creating a ROS Package](https://wiki.ros.org/ROS/Tutorials/CreatingPackage)
 4. [Building a ROS Package](https://wiki.ros.org/ROS/Tutorials/BuildingPackages)
 5. [Understanding ROS Nodes](https://wiki.ros.org/ROS/Tutorials/UnderstandingNodes)
-    - To run turtlesim, you will need to enable the GUI for docker. See GUIs in Docker section above.
+    - Run roscore in the background so you don't need a new terminal window
+        - `roscore &`
+    - To run turtlesim, you will need to enable **GUIs for Docker**. See GUIs in Docker section above.
     - Review
         - roscore = ros + core: master (provides name service for ROS) + rosout (stdout/stderr) + parameter server.
         - rosnode = ros + node: ROS tool to get information about a node.
