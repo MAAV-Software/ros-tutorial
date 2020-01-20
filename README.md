@@ -45,10 +45,10 @@ To enable the use of GUIs in Docker, follow the instructions on the [MAAV Websit
             # Mount the current directory do everything in /tutorial within docker
             - .:/tutorial:rw
             environment:
-            - DISPLAY=1.1.1.1:0.0 # Set DISPLAY variable to <IP Adress>:0.0
+            - DISPLAY=1.1.1.1:0.0 # Change 1.1.1.1 to your IP Address
             network_mode: "host"
             container_name: ros-demo
-            command: "/bin/bash --init-file scripts/source-ros.sh" #source ros automatically 
+            command: "/bin/bash --init-file scripts/source-ros.sh" #source ros automatically
         ```
 6. Follow instructions in ROS Tutorial Steps below
 

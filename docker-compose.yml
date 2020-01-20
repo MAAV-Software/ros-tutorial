@@ -8,7 +8,7 @@ services:
       # Mount the current directory do everything in /tutorial within docker
       - .:/tutorial:rw
     environment:
-      - DISPLAY=1.1.1.1:0.0
+      - DISPLAY=1.1.1.1:0.0 # Change 1.1.1.1 to your IP Address
     network_mode: "host"
     container_name: ros-demo
     command: "/bin/bash --init-file scripts/source-ros.sh" #source ros automatically 
