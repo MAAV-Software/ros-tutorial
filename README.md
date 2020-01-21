@@ -52,6 +52,23 @@ To enable the use of GUIs in Docker, follow the instructions on the [MAAV Websit
         ```
 6. Follow instructions in ROS Tutorial Steps below
 
+#### Suggested Improvement (Optional): Docker Toolbox + WSL = tmux
+As you are working through the ROS Tutorials, you will see that they suggest running processes in one terminal, then opening a new window to run other processes. In Docker, this can be troublesome. You can run a process in the background: e.g. `roscore &`, but this solution doesn't work for every situation. When you want to control the movement of the turtle in turtlesim using the arrow keys, you cannot run that in the background. A solution that I have found is to use WSL (Windows Subsystem for Linux) and tmux.
+
+1. [Install Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+2. [Set up Docker Toolbox for Windows Home 10 and WSL](https://medium.com/@joaoh82/setting-up-docker-toolbox-for-windows-home-10-and-wsl-to-work-perfectly-2fd34ed41d51)
+3. Install tmux in WSL
+    - `sudo apt-get install tmux`
+    - `tmux`
+    - You should now see `[0] 0:bash*` at the bottom of your terminal
+4. Follow the steps in ROS Tutorial below to run the docker container
+5. When inside docker, run `roscore` in one window
+6. Create a new pane with tmux
+    - `Ctrl + b` then `"` to open a new pane vertically below
+    - `Ctrl + b` then `o` to switch between panes
+7. Run other commands in 2nd pane while `roscre` runs in 1st pane
+8. Check out [Getting started with Tmux](https://linuxize.com/post/getting-started-with-tmux/) for more information on commands
+
 #### Troubleshooting
 If you encounter VirtualBox errors when running the Docker Quickstart Terminal, here are some suggestions:
 * If you use the latest version of VirtualBox for personal use, backup your files
