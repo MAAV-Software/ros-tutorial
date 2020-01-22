@@ -52,7 +52,7 @@ To enable the use of GUIs in Docker, follow the instructions on the [MAAV Websit
         ```
 6. Follow instructions in ROS Tutorial Steps below
 
-#### Suggested Improvement (Optional): Docker Toolbox + WSL = tmux
+#### Suggested Improvement (Optional): Docker Toolbox + WSL + tmux
 As you are working through the ROS Tutorials, you will see that they suggest running processes in one terminal, then opening a new window to run other processes. In Docker, this can be troublesome. You can run a process in the background: e.g. `roscore &`, but this solution doesn't work for every situation. When you want to control the movement of the turtle in turtlesim using the arrow keys, you cannot run that in the background. A solution that I have found is to use WSL (Windows Subsystem for Linux) and tmux.
 
 1. [Install Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
@@ -69,6 +69,7 @@ As you are working through the ROS Tutorials, you will see that they suggest run
     - `Ctrl + b` then `o` to switch between panes
 7. Run other commands in 2nd pane while `roscore` runs in 1st pane
 8. Check out [Getting started with Tmux](https://linuxize.com/post/getting-started-with-tmux/) for more information on commands
+9. Check out [Making tmux Pretty and Usable](https://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/) for more information on customization
 
 #### Troubleshooting
 If you encounter VirtualBox errors when running the Docker Quickstart Terminal, here are some suggestions:
@@ -130,6 +131,15 @@ distribution provide various images in an official capacity on [Docker Hub](http
 
 - **Topics:** Nodes can publish messages to a topic as well as subscribe to a topic to receive messages.
 
+## New Terminal Window in Docker
+As you work through the ROS Tutorial, you will find that it is sometimes necessary to run a process (e.g. `roscore`) in one window and run another process (e.g. `rosrun turtlesim turtlesim_node`) in another window. This process is slightly more complicated than simply opening a new window due to our use of Docker containers. There are a couple of options depending on how much time you would like to invest into setting up and learning new tools. The ideal option is tmux (see **Docker Toolbox + WSL + tmux** above), but if you would rather not go through the process of seting that up, you can do the following:
+1. Run your docker container using the steps in **ROS Tutorial Steps** below
+2. Open a new terminal (e.g. Docker Quickstart Terminal, WSL, etc.) and run `docker ps` to see the currently running containers
+3. Copy the container ID
+4. Run `docker exec -it <container_id> bash` where `<container_id>` is replaced with the container name you copied in step 3
+5. Now you should have a new terminal connected to the same Docker container
+6. Make sure to run `cd /tutorial` and `source /opt/ros/melodic/setup.bash` in your new terminal
+
 ## ROS Tutorial Steps
 **NOTE:** If you are using **vcxsrv** as mentioned in **GUIs in Docker** above, **XLaunch** needs to be running and **docker-compose.yml** needs to have the DISPLAY variable set with your IP Address before running the Docker container. If XLaunch is not running, find **config.xlaunch** that you saved and run it.
 
@@ -148,8 +158,6 @@ distribution provide various images in an official capacity on [Docker Hub](http
 
 Do all the work inside your **tutorial** folder. This is the only folder linked 
 to your host computer. Complete the following [ROS tutorials](https://wiki.ros.org/ROS/Tutorials).
-
-**TIP:** To start processes in the background (for when the tutorial suggests opening a new terminal) append `&` to the end of the command. E.g. `roscore &` will run roscore in the background so you can use the same terminal to run `rosrun turtlesim turtlesim_node`.
 
 1. [Installing and Configuring your ROS Environment](https://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment)
     - Skip **1. Install ROS** and **2. Managing Your Environment** as these have already been taken care of in the docker container.
