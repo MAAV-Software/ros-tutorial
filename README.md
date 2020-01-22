@@ -59,14 +59,15 @@ As you are working through the ROS Tutorials, you will see that they suggest run
 2. [Set up Docker Toolbox for Windows Home 10 and WSL](https://medium.com/@joaoh82/setting-up-docker-toolbox-for-windows-home-10-and-wsl-to-work-perfectly-2fd34ed41d51)
 3. Install tmux in WSL
     - `sudo apt-get install tmux`
+4. Follow the steps in ROS Tutorial below to run the docker container
+5. When inside docker, open tmux and run roscore in one window
     - `tmux`
     - You should now see `[0] 0:bash*` at the bottom of your terminal
-4. Follow the steps in ROS Tutorial below to run the docker container
-5. When inside docker, run `roscore` in one window
+    - `roscore`
 6. Create a new pane with tmux
     - `Ctrl + b` then `"` to open a new pane vertically below
     - `Ctrl + b` then `o` to switch between panes
-7. Run other commands in 2nd pane while `roscre` runs in 1st pane
+7. Run other commands in 2nd pane while `roscore` runs in 1st pane
 8. Check out [Getting started with Tmux](https://linuxize.com/post/getting-started-with-tmux/) for more information on commands
 
 #### Troubleshooting
@@ -118,6 +119,7 @@ specify what command runs when your container is started, and more! These
 files can start from scratch or from an existing image. Popular Linux 
 distribution provide various images in an official capacity on [Docker Hub](https://hub.docker.com/search?category=os&source=verified&type=image&image_filter=official).
 
+## ROS Essential Vocab
 - **Packages:** Packages are the software organization unit of ROS code. Each package can contain libraries, executables, scripts, or other artifacts.
 
 - **Manifests (package.xml):** A manifest is a description of a package. It serves to define dependencies between packages and to capture meta information about the package like version, maintainer, license, etc...
@@ -128,9 +130,10 @@ distribution provide various images in an official capacity on [Docker Hub](http
 
 - **Topics:** Nodes can publish messages to a topic as well as subscribe to a topic to receive messages.
 
-
 ## ROS Tutorial Steps
 **NOTE:** If you are using **vcxsrv** as mentioned in **GUIs in Docker** above, **XLaunch** needs to be running and **docker-compose.yml** needs to have the DISPLAY variable set with your IP Address before running the Docker container. If XLaunch is not running, find **config.xlaunch** that you saved and run it.
+
+**NOTE:** If you are using **Docker Toolbox + WSL** as mentioned in in the suggested improvement for Windows, you will need to run **Docker Quickstart Terminal** atleast once to create the **default** virtual machine in VirtualBox. Once this has been created, you will need to manually start the VM since we are not using the quickstart terminal which would have taken care of this for you. In WSL, run `docker-machine.exe start default` and then follow the steps below.
 
 1. In your docker terminal, navigate to the local repository folder
     - `cd /PATH/TO/REPO`
@@ -141,7 +144,7 @@ distribution provide various images in an official capacity on [Docker Hub](http
 4. Navigate to the tutorial folder inside your running docker container
     - `cd /tutorial`
 5. Set source
-    - `source /opt/ros/melodic/setup.sh`
+    - `source /opt/ros/melodic/setup.bash`
 
 Do all the work inside your **tutorial** folder. This is the only folder linked 
 to your host computer. Complete the following [ROS tutorials](https://wiki.ros.org/ROS/Tutorials).
@@ -155,23 +158,25 @@ to your host computer. Complete the following [ROS tutorials](https://wiki.ros.o
         - `mkdir -p catkin_ws/src` instead of `mkdir -p ~/catkin_ws/src`
 2. [Navigating the ROS Filesystem](https://wiki.ros.org/ROS/Tutorials/NavigatingTheFilesystem)
     - The ROS tutorial files have already been installed through the **Dockerfile**.
-    - Review
-        - rospack = ros + pack(age)
-        - roscd = ros + cd
-        - rosls = ros + ls
 3. [Creating a ROS Package](https://wiki.ros.org/ROS/Tutorials/CreatingPackage)
 4. [Building a ROS Package](https://wiki.ros.org/ROS/Tutorials/BuildingPackages)
 5. [Understanding ROS Nodes](https://wiki.ros.org/ROS/Tutorials/UnderstandingNodes)
-    - Run roscore in the background so you don't need a new terminal window
+    - Run roscore in the background so you don't need a new terminal window or use tmux as mentioned in **Suggested Improvement (Optional): Docker Toolbox + WSL = tmux**.
         - `roscore &`
     - To run turtlesim, you will need to enable **GUIs for Docker**. See GUIs in Docker section above.
-    - Review
-        - roscore = ros + core: master (provides name service for ROS) + rosout (stdout/stderr) + parameter server.
-        - rosnode = ros + node: ROS tool to get information about a node.
-        - rosrun = ros + run: runs a new node from a given package.
 6. [Understanding ROS Topics](https://wiki.ros.org/ROS/Tutorials/UnderstandingTopics)
 7. [Understanding ROS Services and Parameters](https://wiki.ros.org/ROS/Tutorials/UnderstandingServicesParams)
 8. [Using rqt_console and roslaunch](https://wiki.ros.org/ROS/Tutorials/UsingRqtconsoleRoslaunch)
 9.  [Using rosed to edit files in ROS](https://wiki.ros.org/ROS/Tutorials/UsingRosEd)
 10. [Creating a ROS msg and srv](https://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv)
 11. [Writing a Simple Publisher and Subscriber (C++)](https://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28c%2B%2B%29)
+
+## ROS Commands
+- rospack = ros + pack(age) : provides information related to ROS package or stack
+- roscd = ros + cd : **c**hanges **d**irectory to a ROS package or stack
+- rosls = ros + ls : **l**ist**s** files in a ROS package
+- roscp = ros + cp : **c**o**p**ies files from/to a ROS package
+- rosmsg = ros + msg : provides information related to ROS message definitions
+- rossrv = ros + srv : provides information related to ROS service definitions
+- catkin_make : makes (compiles) a ROS package
+  - rosmake = ros + make : makes (compiles) a ROS package (if you're not using a catkin workspace)
